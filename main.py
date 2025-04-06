@@ -12,17 +12,13 @@ app = Flask(__name__)
 
  
 
-# Rota de saúde (root) – evita que o Render derrube o app
-
 @app.route("/")
 
 def index():
 
-    return "Hermes ANBIMA API está rodando 🔥⚖️"
+    return "Hermes ANBIMA API está rodando 🤖⚖️"
 
  
-
-# Rota principal: retorna documentos da ANBIMA
 
 @app.route("/anbima/documentos", methods=["GET"], strict_slashes=False)
 
@@ -34,11 +30,27 @@ def buscar_documentos():
 
     BASE_URL = "https://www.anbima.com.br/pt_br/autorregular/autorregular.htm"
 
-    HEADERS = {"User-Agent": "Mozilla/5.0"}
+    HEADERS = {
+
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+
+    }
 
  
 
-    response = requests.get(BASE_URL, headers=HEADERS)
+    try:
+
+        response = requests.get(BASE_URL, headers=HEADERS, timeout=10)
+
+        response.raise_for_status()
+
+    except Exception as e:
+
+        print(f"❌ Erro ao acessar a página da ANBIMA: {e}")
+
+        return jsonify({"erro": "Não foi possível acessar a ANBIMA"}), 500
+
+ 
 
     soup = BeautifulSoup(response.text, "html.parser")
 
@@ -64,11 +76,11 @@ def buscar_documentos():
 
  
 
+    print(f"🔍 {len(documentos)} documentos encontrados.")
+
     return jsonify({"resultados": documentos})
 
  
-
-# Execução da aplicação
 
 if __name__ == "__main__":
 
