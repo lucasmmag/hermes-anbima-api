@@ -32,7 +32,7 @@ def buscar_documentos():
 
  
 
-    BASE_URL = https://www.anbima.com.br/pt_br/autorregular/autorregular.htm
+    BASE_URL = "https://www.anbima.com.br/pt_br/autorregular/autorregular.htm"
 
     HEADERS = {"User-Agent": "Mozilla/5.0"}
 
