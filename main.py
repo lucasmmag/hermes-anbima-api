@@ -15,7 +15,7 @@ app = Flask(__name__)
 @app.route("/")
 
 def index():
-
+    print("✅ Rota raiz acessada")
     return "Hermes ANBIMA API está rodando 🤖⚖️"
 
  
@@ -23,7 +23,6 @@ def index():
 @app.route("/anbima/documentos", methods=["GET"], strict_slashes=False)
 
 def buscar_documentos():
-
     print("✅ Função buscar_documentos foi chamada!")
 
  
