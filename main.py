@@ -12,23 +12,27 @@ app = Flask(__name__)
 
  
 
-# Rota de saúde (root) — evita que o Render derrube o app
+# Rota de saúde (root) – evita que o Render derrube o app
 
 @app.route("/")
 
 def index():
 
-    return "Hermes ANBIMA API está rodando 🧠⚖️"
+    return "Hermes ANBIMA API está rodando 🔥⚖️"
 
  
 
 # Rota principal: retorna documentos da ANBIMA
 
-@app.route("/anbima/documentos", methods=["GET"])
+@app.route("/anbima/documentos", methods=["GET"], strict_slashes=False)
 
 def buscar_documentos():
 
-    BASE_URL = "https://www.anbima.com.br/pt_br/autorregular/autorregular.htm"
+    print("✅ Função buscar_documentos foi chamada!")
+
+ 
+
+    BASE_URL = https://www.anbima.com.br/pt_br/autorregular/autorregular.htm
 
     HEADERS = {"User-Agent": "Mozilla/5.0"}
 
@@ -64,11 +68,12 @@ def buscar_documentos():
 
  
 
-# Inicializa o app no Render
+# Execução da aplicação
 
 if __name__ == "__main__":
+
+    print("🚀 Aplicação Flask está rodando...")
 
     port = int(os.environ.get("PORT", 3000))
 
     app.run(host="0.0.0.0", port=port)
-
