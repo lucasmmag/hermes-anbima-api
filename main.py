@@ -9,3 +9,6 @@ def home():
 @app.route("/anbima/documentos")
 def rota_documentos():
     return "✅ API ONLINE - ROTA /anbima/documentos FUNCIONANDO"
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
