@@ -4,4 +4,4 @@ beautifulsoup4
 gunicorn
 flask-cors
 transformers==4.36.2
-torch==2.1.0
+torch==2.3.0
