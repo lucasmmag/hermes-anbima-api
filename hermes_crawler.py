@@ -4,43 +4,38 @@ import os
 import re
 from urllib.parse import urljoin
 
-# URL da sua API Hermes (que lista os documentos)
 API_DOCUMENTOS_URL = "https://bolder-hot-hockey.glitch.me/anbima/documentos"
 BASE_SITE_ANBIMA = "https://www.anbima.com.br"
 PASTA_SAIDA = "documentos"
 
-# Palavras-chave para filtrar documentos relevantes
+# Lista ampliada de palavras-chave relacionadas à regulação
 PALAVRAS_CHAVE = [
-    "código", "norma", "regra", "manual", "lei", "artigo", "circular",
-    "comunicado", "supervisão", "ofício", "autorregulação", "penalidade",
-    "adesão", "procedimento", "orientação", "guia", "regulação"
+    "autorregula", "autorregular", "autorregulação", "autorregulacao", "autorreguladas",
+    "manual", "guia", "código", "codigo", "norma", "regra", "regras",
+    "regulação", "regulacao", "supervisão", "supervisao",
+    "adesão", "adesao", "ofício", "oficio", "circular", "penalidade", "procedimento"
 ]
 
 # Garante que a pasta de saída exista
 os.makedirs(PASTA_SAIDA, exist_ok=True)
 
 def limpar_nome_arquivo(titulo):
-    """Remove caracteres inválidos para nomes de arquivo"""
     return re.sub(r"[^\w\s-]", "", titulo).strip().replace(" ", "_") + ".txt"
 
 def contem_palavra_chave(texto):
-    """Verifica se o texto contém alguma palavra-chave relevante"""
     texto = texto.lower()
     return any(p in texto for p in PALAVRAS_CHAVE)
 
 def extrair_texto_da_url(url):
-    """Acessa a URL e extrai o texto da página"""
     try:
         response = requests.get(url, timeout=10)
         response.raise_for_status()
         soup = BeautifulSoup(response.content, "html.parser")
 
-        # Remove elementos não relevantes
         for tag in soup(["script", "style", "header", "footer", "nav"]):
             tag.decompose()
 
         return soup.get_text(separator="\n", strip=True)
-
     except Exception as e:
         print(f"❌ Erro ao acessar {url}: {e}")
         return None
@@ -65,11 +60,9 @@ def baixar_documentos():
         if not link_raw or link_raw.startswith("#") or "mailto:" in link_raw:
             continue
 
-        # Ignora domínios externos indesejados
         if "zendesk" in link_raw or "partiuinvestir" in link_raw:
             continue
 
-        # Corrige links relativos
         url = urljoin(BASE_SITE_ANBIMA, link_raw)
 
         if not contem_palavra_chave(titulo) and not contem_palavra_chave(url):
