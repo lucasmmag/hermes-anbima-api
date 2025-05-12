@@ -1,7 +1,5 @@
-flask
-requests
-beautifulsoup4
-gunicorn
-flask-cors
-transformers==4.36.2
-torch==2.3.0
+openai
+faiss-cpu
+numpy
+tqdm
+python-dotenv
